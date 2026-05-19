@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOVISTA - Portugal Activities</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* =========================
+           PALETTE PORTUGAL (VERT & ROUGE)
+           ========================= */
+        :root {
+            --portugal-green: #006600;
+            --portugal-red: #ff0000;
+            --bg-beige: #f5f1e8;
+        }
+
+        /* Global */
+        body {
+            background-color: var(--bg-beige);
+            color: var(--portugal-green);
+        }
+
+        header {
+            background: rgba(245, 241, 232, 0.85) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 102, 0, 0.1);
+        }
+
+        .logo { color: var(--portugal-green) !important; font-weight: 800; }
+        nav a { color: var(--portugal-green) !important; font-weight: 600; }
+        nav a:hover { color: var(--portugal-red) !important; }
+
+        /* Hero */
+        .hero { background: var(--bg-beige); height: 100vh; position: relative; }
+        .hero-content h1 { color: var(--portugal-green); font-weight: 900; }
+
+        .search-box {
+            box-shadow: 0 10px 30px rgba(0, 102, 0, 0.1) !important;
+            border: 1px solid var(--portugal-green);
+        }
+
+        /* Bouton Search en ROUGE */
+        .search-btn {
+            background: var(--portugal-red) !important;
+            color: white !important;
+        }
+        .search-btn:hover { background: #cc0000 !important; }
+
+        /* Cartes d'activités */
+        .activity-card {
+            background: white !important;
+            border: 1px solid rgba(0, 102, 0, 0.1);
+            border-radius: 20px !important;
+        }
+        
+        .activity-location { 
+            color: var(--portugal-green) !important; 
+            font-weight: 800;
+        }
+
+        /* PRIX EN VERT */
+        .price { 
+            color: var(--portugal-green) !important; 
+            font-weight: 800;
+            font-size: 22px;
+        }
+        
+        /* Bouton Réserver en ROUGE pour attirer l'oeil */
+        .reserve-btn {
+            background: var(--portugal-red) !important;
+            color: white !important;
+            border-radius: 12px !important;
+            font-weight: bold;
+        }
+        .reserve-btn:hover { background: var(--portugal-green) !important; }
+
+        /* Footer */
+        footer {
+            background: #ece5d8 !important;
+            color: var(--portugal-green) !important;
+            padding: 40px 20px !important;
+            text-align: center;
+        }
+
+        .figma-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--portugal-red);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <img src="images/logo.png" alt="Logo">
+        GOVISTA
+    </div>
+    <nav>
+        <a href="#">Favoris</a>
+        <a href="#">Panier</a>
+        <a href="#">Profil</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div id="three-container"></div>
+    <div class="hero-content">
+        <h1>Discover The Best <br> Activities In Portugal</h1>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Rechercher une ville...">
+            <button class="search-btn" onclick="search()">Search</button>
+        </div>
+    </div>
+</section>
+
+<section class="activities-container">
+    <h2 class="activities-title" style="text-align: center; color: var(--portugal-green); margin-bottom: 40px; font-weight: 800;">Popular Activities</h2>
+    <div class="activities-grid" id="activities-grid"></div>
+</section>
+
+<footer>
+    <p>&copy; 2026 GOVISTA. Discover Portugal with passion.</p>
+    <a href="https://www.figma.com/design/V8MoA8TIcGiJNITt6P54UO/Flux---Figma-Build-Tutorial--Starter---Community-?node-id=0-1&t=MGe1OHGUlUjHfala-1" target="_blank" class="figma-link">
+        🎨 Voir le Design sur Figma
+    </a>
+</footer>
+
+<script src="https://unpkg.com/three@0.153.0/build/three.min.js"></script>
+
+<script>
+    const activities = [
+        { count: 70, location: "Lisbon", price: "50€", rating: "★★★★★", image: "images/t-l-chargement-1-1-10.png" },
+        { count: 120, location: "Porto", price: "40€", rating: "★★★★★", image: "images/t-l-chargement-1-11.png" },
+        { count: 81, location: "Sintra", price: "70€", rating: "★★★★★", image: "images/dsc03862-1-38.png" }
+    ];
+
+    function displayActivities(data) {
+        const grid = document.getElementById("activities-grid");
+        grid.innerHTML = data.map(activity => `
+            <div class="activity-card">
+                <img src="${activity.image}" class="activity-image">
+                <div class="activity-info">
+                    <div class="activity-count" style="color: var(--portugal-green); font-weight: bold; opacity: 0.8;">${activity.count} activities</div>
+                    <div class="activity-location">${activity.location}</div>
+                    <div class="activity-footer">
+                        <div>
+                            <div class="price">${activity.price}</div>
+                            <div class="rating" style="color: #d4a373;">${activity.rating}</div>
+                        </div>
+                        <button class="reserve-btn">Réserver</button>
+                    </div>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    displayActivities(activities);
+
+    function search() {
+        const val = document.getElementById("search-input").value.toLowerCase();
+        displayActivities(activities.filter(a => a.location.toLowerCase().includes(val)));
+    }
+
+    // ================= THREE JS =================
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color("#f5f1e8"); 
+
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 3, 3); 
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById("three-container").appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 5, 5);
+    scene.add(light);
+
+    const shape = new THREE.Shape();
+    shape.moveTo(-0.4, 5.0); shape.lineTo(0.2, 4.6); shape.lineTo(0.4, 3.8);
+    shape.lineTo(0.3, 2.8); shape.lineTo(0.4, 1.5); shape.lineTo(0.3, 0.5);
+    shape.lineTo(0.4, -0.8); shape.lineTo(0.2, -2.0); shape.lineTo(0.0, -3.2);
+    shape.lineTo(-0.2, -4.2); shape.lineTo(-0.5, -5.0); shape.lineTo(-0.8, -3.5);
+    shape.lineTo(-0.7, -1.8); shape.lineTo(-0.6, 0.2); shape.lineTo(-0.7, 2.2);
+    shape.lineTo(-0.6, 3.6); shape.lineTo(-0.4, 5.0);
+
+    const geometry = new THREE.ExtrudeGeometry(shape, { depth: 0.4, bevelEnabled: true, bevelSize: 0.1 });
+    geometry.center();
+
+    const material = new THREE.MeshStandardMaterial({
+        color: "#006600",
+        roughness: 0.4,
+        metalness: 0.1
+    });
+
+    const portugal = new THREE.Mesh(geometry, material);
+    portugal.scale.set(1.6, 1.6, 1.6); 
+    portugal.rotation.x = -Math.PI / 2; 
+    portugal.position.y = 1.5; 
+
+    scene.add(portugal);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        portugal.rotation.z += 0.002; 
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+
+</body>
+</html>
