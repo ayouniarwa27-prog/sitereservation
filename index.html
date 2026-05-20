@@ -4,16 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOVISTA - Portugal Activities</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
     
     <style>
         /* =========================
-           PALETTE PORTUGAL (VERT & ROUGE)
+           PALETTE PORTUGAL (VERT & ROUGE) / BLUE THEME
            ========================= */
         :root {
             --portugal-green: #006600;
             --portugal-red: #ff0000;
             --bg-beige: #f5f1e8;
+            --primary-color: #006600;
+            --accent-color: #ff0000;
+            --bg-color: #f5f1e8;
+        }
+
+        body.blue-theme {
+            --primary-color: #0056cc;
+            --accent-color: #0056cc;
+            --bg-color: #f0f4f8;
+            --portugal-green: #0056cc;
+            --portugal-red: #0056cc;
+            --bg-beige: #f0f4f8;
         }
 
         /* Global */
@@ -28,7 +40,14 @@
             border-bottom: 1px solid rgba(0, 102, 0, 0.1);
         }
 
-        .logo { color: var(--portugal-green) !important; font-weight: 800; }
+        .logo { color: var(--portugal-green) !important; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .logo img { height: 40px; }
+        .logo-default { display: block; }
+        .logo-blue { display: none; }
+
+        body.blue-theme .logo-default { display: none; }
+        body.blue-theme .logo-blue { display: block; }
+
         nav a { color: var(--portugal-green) !important; font-weight: 600; }
         nav a:hover { color: var(--portugal-red) !important; }
 
@@ -91,6 +110,358 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        /* About Section */
+        .about-section {
+            background: white;
+            padding: 80px 40px;
+            max-width: 1000px;
+            margin: 60px auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 102, 0, 0.08);
+        }
+
+        .about-section h2 {
+            color: var(--portugal-green);
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .about-section p {
+            color: var(--portugal-green);
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .about-highlight {
+            color: var(--portugal-red);
+            font-weight: bold;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(0, 102, 0, 0.1);
+        }
+
+        body.blue-theme .theme-toggle-btn:hover {
+            background: rgba(0, 86, 204, 0.1);
+        }
+
+        /* MODAL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--portugal-green);
+        }
+
+        .modal h2 {
+            color: var(--portugal-green);
+            margin-bottom: 15px;
+            margin-top: 15px;
+            font-size: 28px;
+        }
+
+        .modal p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .modal-btn-cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #d0d0d0;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn-confirm {
+            background: var(--portugal-red);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+        }
+
+        .modal-btn-confirm:hover {
+            background: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .success-message {
+            display: none;
+            background: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: slideIn 0.4s ease;
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 3000;
+            max-width: 400px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(500px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* FAVORITES & CART BADGES */
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--portugal-red);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        nav a {
+            position: relative;
+        }
+
+        /* LIST STYLES */
+        .modal-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 20px 0;
+            padding: 0;
+            border-radius: 10px;
+        }
+
+        .modal-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .modal-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .modal-list-item-info {
+            flex: 1;
+        }
+
+        .modal-list-item-name {
+            font-weight: 600;
+            color: var(--portugal-green);
+            margin-bottom: 5px;
+        }
+
+        .modal-list-item-price {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .modal-list-item-action {
+            background: var(--portugal-red);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .modal-list-item-action:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        .modal-list-item-like {
+            background: #ff1744;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .modal-list-item-like.liked {
+            background: var(--portugal-green);
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        /* PROFILE FORM */
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--portugal-green);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--portugal-green);
+            box-shadow: 0 0 0 3px rgba(0, 102, 0, 0.1);
+        }
+
+        /* CART TOTAL */
+        .modal-total {
+            background: #f5f1e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: right;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--portugal-green);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--portugal-green) 0%, #00aa00 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 102, 0, 0.3);
+        }
     </style>
 </head>
 
@@ -98,13 +469,20 @@
 
 <header>
     <div class="logo">
-        <img src="images/logo.png" alt="Logo">
-        GOVISTA
+        <div class="logo-default">
+            <img src="./images/logo.png" alt="Logo GOVISTA">
+            <span>GOVISTA</span>
+        </div>
+        <div class="logo-blue">
+            <img src="./images/image-13-6.png" alt="Logo Blue Theme">
+            <span>GOVISTA</span>
+        </div>
     </div>
     <nav>
-        <a href="#">Favoris</a>
-        <a href="#">Panier</a>
-        <a href="#">Profil</a>
+        <a href="#" onclick="openFavoritesModal(event)">❤️ Favoris <span id="favoriteBadge" class="badge" style="display: none;">0</span></a>
+        <a href="#" onclick="openCartModal(event)">🛒 Panier <span id="cartBadge" class="badge" style="display: none;">0</span></a>
+        <a href="#" onclick="openProfileModal(event)">👤 Profil</a>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Changer le thème">🌙</button>
     </nav>
 </header>
 
@@ -124,6 +502,21 @@
     <div class="activities-grid" id="activities-grid"></div>
 </section>
 
+<section class="about-section">
+    <h2>À Propos de Go Vista</h2>
+    <p>
+        <span class="about-highlight">Go Vista</span> is your trusted platform for discovering the best activities in Portugal. We are passionate about exploring and promoting the hidden wonders of this beautiful country.
+    </p>
+    <p>
+        Our mission is to provide you with an unforgettable experience by connecting travelers with the most authentic and enriching activities. From Lisbon to Porto, including the mystical castles of Sintra, we guide you to destinations and experiences that will make your journey truly memorable.
+    </p>
+    <p>
+       With more than <span class="about-highlight">270 activities</span> available and thousands of satisfied customers,
+        Go Vista has become the reference for those who love culture, adventure, and discoveries in Portugal.
+        Join us and explore Portugal like never before!
+    </p>
+</section>
+
 <footer>
     <p>&copy; 2026 GOVISTA. Discover Portugal with passion.</p>
     <a href="https://www.figma.com/design/V8MoA8TIcGiJNITt6P54UO/Flux---Figma-Build-Tutorial--Starter---Community-?node-id=0-1&t=MGe1OHGUlUjHfala-1" target="_blank" class="figma-link">
@@ -131,13 +524,121 @@
     </a>
 </footer>
 
+<!-- MODAL DE RÉSERVATION -->
+<div id="reservationModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Confirmer la Réservation</h2>
+        <p>Êtes-vous sûr de vouloir réserver cette activité ? Une confirmation sera envoyée à votre email.</p>
+        <div id="activityName" style="background: #f5f1e8; padding: 15px; border-radius: 10px; margin-bottom: 25px; color: var(--portugal-green); font-weight: bold; font-size: 18px;"></div>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="closeReservationModal()">Annuler</button>
+            <button class="modal-btn modal-btn-confirm" onclick="confirmReservation()">Réserver</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL FAVORIS -->
+<div id="favoritesModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeFavoritesModal()">&times;</span>
+        <h2>❤️ Mes Favoris</h2>
+        <div id="favoritesList" class="modal-list"></div>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="closeFavoritesModal()">Fermer</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PANIER -->
+<div id="cartModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeCartModal()">&times;</span>
+        <h2>🛒 Mon Panier</h2>
+        <div id="cartList" class="modal-list"></div>
+        <div id="cartTotal" class="modal-total"></div>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="closeCartModal()">Continuer</button>
+            <button class="checkout-btn" onclick="checkout()">Passer la Commande</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PROFIL -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeProfileModal()">&times;</span>
+        <h2>👤 Mon Profil</h2>
+        <div class="profile-form">
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" id="userName" placeholder="Votre nom">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="userEmail" placeholder="votre@email.com">
+            </div>
+            <div class="form-group">
+                <label>Téléphone</label>
+                <input type="tel" id="userPhone" placeholder="+351 XXX XXX XXX">
+            </div>
+            <div class="form-group">
+                <label>Adresse</label>
+                <input type="text" id="userAddress" placeholder="Votre adresse">
+            </div>
+        </div>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="closeProfileModal()">Annuler</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveProfile()">Sauvegarder</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://unpkg.com/three@0.153.0/build/three.min.js"></script>
 
 <script>
+    // ================= THEME TOGGLE =================
+    function toggleTheme() {
+        const body = document.body;
+        const btn = document.querySelector('.theme-toggle-btn');
+
+        if (body.classList.contains('blue-theme')) {
+            body.classList.remove('blue-theme');
+            btn.textContent = '🌙';
+            localStorage.setItem('theme', 'green');
+        } else {
+            body.classList.add('blue-theme');
+            btn.textContent = '☀️';
+            localStorage.setItem('theme', 'blue');
+        }
+    }
+
+    // Load saved theme on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme') || 'green';
+        const btn = document.querySelector('.theme-toggle-btn');
+
+        if (savedTheme === 'blue') {
+            document.body.classList.add('blue-theme');
+            btn.textContent = '☀️';
+        } else {
+            btn.textContent = '🌙';
+        }
+    });
+
     const activities = [
-        { count: 70, location: "Lisbon", price: "50€", rating: "★★★★★", image: "images/t-l-chargement-1-1-10.png" },
-        { count: 120, location: "Porto", price: "40€", rating: "★★★★★", image: "images/t-l-chargement-1-11.png" },
-        { count: 81, location: "Sintra", price: "70€", rating: "★★★★★", image: "images/dsc03862-1-38.png" }
+        { count: 70, location: "Lisbon", price: "50€", rating: "★★★★★", image: "./images/t-l-chargement-1-1-10.png" },
+        { count: 120, location: "Porto", price: "40€", rating: "★★★★★", image: "./images/t-l-chargement-1-11.png" },
+        { count: 81, location: "Arzo", price: "70€", rating: "★★★★★", image: "./images/dsc03862-1-38.png" },
+        { count: 50, location: "Sintra", price: "50€", rating: "★★★★☆", image: "./images/node-12.png" },
+        { count: 120, location: "Cascais", price: "40€", rating: "★★★★★", image: "./images/Cascais.jpg" },
+        { count: 81, location: "Évora", price: "70€", rating: "★★★★★", image: "./images/Évora.jpg" },
+        { count: 95, location: "Covilhã", price: "45€", rating: "★★★★☆", image: "./images/Covilhã.jpg" },
+        { count: 110, location: "Braga", price: "55€", rating: "★★★★★", image: "./images/Braga.jpg" },
+        { count: 75, location: "Guarda", price: "60€", rating: "★★★★☆", image: "./images/guarda.jpg" },
+        { count: 88, location: "Viseu", price: "50€", rating: "★★★★★", image: "./images/Viseu.jpg" },
+        { count: 102, location: "Aveiro", price: "48€", rating: "★★★★★", image: "./images/Aveiro.jpg" },
+        { count: 92, location: "Coimbra", price: "52€", rating: "★★★★☆", image: "./images/Coimbra.jpg" }
     ];
 
     function displayActivities(data) {
@@ -153,11 +654,24 @@
                             <div class="price">${activity.price}</div>
                             <div class="rating" style="color: #d4a373;">${activity.rating}</div>
                         </div>
-                        <button class="reserve-btn">Réserver</button>
+                        <div style="display: flex; gap: 8px;">
+                            <button style="background: none; border: none; font-size: 20px; cursor: pointer; transition: transform 0.2s;" onclick="toggleFavorite(this, '${activity.location}')" title="Ajouter aux favoris">🤍</button>
+                            <button class="reserve-btn" onclick="openReservationModal('${activity.location}', '${activity.price}')">Réserver</button>
+                        </div>
                     </div>
                 </div>
             </div>
         `).join("");
+    }
+
+    function toggleFavorite(button, location) {
+        if (favorites.includes(location)) {
+            removeFavorite(location);
+            button.textContent = "🤍";
+        } else {
+            addToFavorites(location);
+            button.textContent = "❤️";
+        }
     }
 
     displayActivities(activities);
@@ -166,6 +680,221 @@
         const val = document.getElementById("search-input").value.toLowerCase();
         displayActivities(activities.filter(a => a.location.toLowerCase().includes(val)));
     }
+
+    // ================= RESERVATION MODAL =================
+    let currentReservation = {};
+    let favorites = [];
+    let cart = [];
+    let userProfile = {};
+
+    function openReservationModal(location, price) {
+        currentReservation = { location, price };
+        document.getElementById("activityName").textContent = `${location} - ${price}`;
+        document.getElementById("reservationModal").style.display = "block";
+    }
+
+    function closeReservationModal() {
+        document.getElementById("reservationModal").style.display = "none";
+        currentReservation = {};
+    }
+
+    function confirmReservation() {
+        const modal = document.getElementById("reservationModal");
+        const successMsg = document.getElementById("successMessage");
+
+        // Add to cart
+        cart.push({
+            name: currentReservation.location,
+            price: currentReservation.price
+        });
+        updateCartBadge();
+
+        // Close modal
+        modal.style.display = "none";
+
+        // Show success message
+        if (!document.getElementById("successMessage")) {
+            const msg = document.createElement("div");
+            msg.id = "successMessage";
+            msg.className = "success-message";
+            msg.textContent = "✓ Réservation ajoutée au panier !";
+            msg.style.display = "block";
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 4000);
+        } else {
+            successMsg.style.display = "block";
+            successMsg.textContent = "✓ Réservation ajoutée au panier !";
+            setTimeout(() => { successMsg.style.display = "none"; }, 4000);
+        }
+
+        currentReservation = {};
+    }
+
+    // ================= FAVORITES MODAL =================
+    function openFavoritesModal(e) {
+        e.preventDefault();
+        displayFavorites();
+        document.getElementById("favoritesModal").style.display = "block";
+    }
+
+    function closeFavoritesModal() {
+        document.getElementById("favoritesModal").style.display = "none";
+    }
+
+    function displayFavorites() {
+        const list = document.getElementById("favoritesList");
+        if (favorites.length === 0) {
+            list.innerHTML = `<div class="empty-message"><div class="empty-icon">🤍</div>Aucun favori pour le moment</div>`;
+        } else {
+            list.innerHTML = favorites.map(fav => `
+                <div class="modal-list-item">
+                    <div class="modal-list-info">
+                        <div class="modal-list-item-name">${fav}</div>
+                    </div>
+                    <button class="modal-list-item-action" onclick="removeFavorite('${fav}')">Supprimer</button>
+                </div>
+            `).join("");
+        }
+    }
+
+    function addToFavorites(location) {
+        if (!favorites.includes(location)) {
+            favorites.push(location);
+            updateFavoriteBadge();
+        }
+    }
+
+    function removeFavorite(location) {
+        favorites = favorites.filter(fav => fav !== location);
+        updateFavoriteBadge();
+        displayFavorites();
+    }
+
+    function updateFavoriteBadge() {
+        const badge = document.getElementById("favoriteBadge");
+        if (favorites.length > 0) {
+            badge.textContent = favorites.length;
+            badge.style.display = "flex";
+        } else {
+            badge.style.display = "none";
+        }
+    }
+
+    // ================= CART MODAL =================
+    function openCartModal(e) {
+        e.preventDefault();
+        displayCart();
+        document.getElementById("cartModal").style.display = "block";
+    }
+
+    function closeCartModal() {
+        document.getElementById("cartModal").style.display = "none";
+    }
+
+    function displayCart() {
+        const list = document.getElementById("cartList");
+        const total = document.getElementById("cartTotal");
+
+        if (cart.length === 0) {
+            list.innerHTML = `<div class="empty-message"><div class="empty-icon">🛒</div>Votre panier est vide</div>`;
+            total.innerHTML = "";
+        } else {
+            let totalPrice = 0;
+            list.innerHTML = cart.map((item, index) => {
+                const price = parseInt(item.price);
+                totalPrice += price;
+                return `
+                    <div class="modal-list-item">
+                        <div class="modal-list-item-info">
+                            <div class="modal-list-item-name">${item.name}</div>
+                            <div class="modal-list-item-price">${item.price}</div>
+                        </div>
+                        <button class="modal-list-item-action" onclick="removeFromCart(${index})">Supprimer</button>
+                    </div>
+                `;
+            }).join("");
+            total.innerHTML = `Total: ${totalPrice}€`;
+        }
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartBadge();
+        displayCart();
+    }
+
+    function updateCartBadge() {
+        const badge = document.getElementById("cartBadge");
+        if (cart.length > 0) {
+            badge.textContent = cart.length;
+            badge.style.display = "flex";
+        } else {
+            badge.style.display = "none";
+        }
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            alert("Votre panier est vide !");
+            return;
+        }
+        alert("Commande passée avec succès ! Vous recevrez une confirmation par email.");
+        cart = [];
+        updateCartBadge();
+        closeCartModal();
+    }
+
+    // ================= PROFILE MODAL =================
+    function openProfileModal(e) {
+        e.preventDefault();
+        loadProfile();
+        document.getElementById("profileModal").style.display = "block";
+    }
+
+    function closeProfileModal() {
+        document.getElementById("profileModal").style.display = "none";
+    }
+
+    function loadProfile() {
+        document.getElementById("userName").value = userProfile.name || "";
+        document.getElementById("userEmail").value = userProfile.email || "";
+        document.getElementById("userPhone").value = userProfile.phone || "";
+        document.getElementById("userAddress").value = userProfile.address || "";
+    }
+
+    function saveProfile() {
+        userProfile = {
+            name: document.getElementById("userName").value,
+            email: document.getElementById("userEmail").value,
+            phone: document.getElementById("userPhone").value,
+            address: document.getElementById("userAddress").value
+        };
+
+        if (!userProfile.email) {
+            alert("Veuillez entrer un email !");
+            return;
+        }
+
+        alert("Profil sauvegardé avec succès !");
+        closeProfileModal();
+    }
+
+    // Close modal when clicking X
+    window.addEventListener('DOMContentLoaded', () => {
+        const closeButtons = document.querySelectorAll('.close-modal');
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.target.closest('.modal').style.display = "none";
+            });
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = "none";
+            }
+        });
+    });
 
     // ================= THREE JS =================
     const scene = new THREE.Scene();
